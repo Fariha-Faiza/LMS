@@ -1,0 +1,27 @@
+.dialog-title{
+    /* color: burlywood; */
+    background-color: burlywood;
+    align-items: center;
+}
+.dialog-box{
+    padding: 5px
+}
+
+#table1 table, th, td { 
+    text-align: left;
+    font-weight: normal;
+    border-bottom: 0px solid #DDD
+  }
+ #table1 td:before {
+    content: ":";
+    padding-left: 1em;
+    padding-right: 2em;
+  }
+.descSize{
+  text-align: justify; /* For Edge */
+  -moz-text-align-last: justify; /* For Firefox prior 58.0 */
+  text-align-last: justify;
+
+}
+
+  
