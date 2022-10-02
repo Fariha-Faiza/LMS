@@ -98,7 +98,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 
-//GET POST
+//GET POST main
 router.get("/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -108,28 +108,52 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-//GET ALL POSTS
+// get borrowed book by me
 router.get("/", async (req, res) => {
   const username = req.query.user;
-  const catName = req.query.cat;
+  const borrowedby = req.query.borrowedbook;
+  
   try {
     let posts;
+    console.log('username', username);
+    console.log('borrowed by', borrowedby);
     if (username) {
       posts = await Post.find({ username });
-    } else if (catName) {
-      posts = await Post.find({
-        categories: {
-          $in: [catName],
-        },
-      });
-    } else {
-      posts = await Post.find();
+    }  else {
+      // posts = await Post.find();
+      console.log("nothing found")
     }
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err);
   }
 });
+
+
+
+//GET ALL POSTS
+// router.get("/", async (req, res) => {
+//   const username = req.query.user;
+//   const catName = req.query.cat;
+  
+//   try {
+//     let posts;
+//     if (username) {
+//       posts = await Post.find({ username });
+//     } else if (catName) {
+//       posts = await Post.find({
+//         categories: {
+//           $in: [catName],
+//         },
+//       });
+//     } else {
+//       posts = await Post.find();
+//     }
+//     res.status(200).json(posts);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
 
 
