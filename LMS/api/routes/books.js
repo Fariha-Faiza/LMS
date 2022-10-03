@@ -156,5 +156,49 @@ router.get("/", async (req, res) => {
 });
 
 
+//borrow book
+
+
+
+router.post("/borrow/:id", async (req, res, next) => {
+  //const newPost = new Post(req.body);
+  console.log("borrow");
+  try {
+    const book = await Post.findOne({ username: req.body.username })
+    // if (book == null) {
+    //   return res.status(404).json({ error: "Book not found" })
+    // }
+    // if (book.borrowedBy.length === book.quantity) {
+    //   return res.status(400).json({ error: "Book is not available" })
+    // }
+    // const user = await User.findById(req.body.username)
+    // if (user != null) {
+    //   return res.status(404).json({ error: "User not found" })
+    // }
+
+    console.log("borrow1",  req.body.username);
+    if (Post.borrowedBy?.includes(User._id)) {
+      return res.status(400).json({ error: "You've already borrowed this book" })
+    }
+    console.log("borrow2", Post.borrowedBy?.includes(User._id), Post.borrowedBy, User._id, book);
+    // await book.update({ borrowedBy: [...book.borrowedBy, User._id] })
+    // const updatedBook = await BookModel.findById(book.id)
+    console.log("borrow3");
+    // return res.status(200).json({
+    //   book: {
+    //     ...updatedBook.toJSON(),
+    //    // availableQuantity: updatedBook.quantity - updatedBook.borrowedBy.length,
+    //   },
+      
+    // })
+    
+  } catch (err) {
+    console.log("problem");
+    next(err)
+  }
+})
+
+
+
 
 module.exports = router;

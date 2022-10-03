@@ -27,9 +27,10 @@ var [borrowedBooklist, setBorrowedBooklist]= useState([]);
 
 const { user } = useContext(Context);
 const [userRole, setUserRole] = useState("")
+const [userId, setUserId] = useState("")
  //book list fetching from backend
  const [booklist, setBooklist] = useState([]);
- 
+ const [userInfo, setUserInfo] = useState([]);
  
 
  // console.log(openAddbook,editbook);
@@ -37,25 +38,19 @@ const [userRole, setUserRole] = useState("")
 useEffect(() => {
  console.log("borrowedBooklist", borrowedBooklist, borrowedBookbyUser)
  console.log('user', user);
- setUserRole(user.role)
+ setUserRole(user.role);
+ setUserId(user._id)
+
 
  console.log('userRole', userRole);
+ console.log('userID', userId);
 
 
 
-},[userRole])
-
-useEffect(() =>{
- // borrowedBooklist = booklist.map(b=>b.borrowedBy.length!==0)
- //  setBorrowedBooklist(borrowedBooklist)
- //  borrowedBookbyUser = borrowedBooklist.map(b => b.borrowedBy.includes('faizamoni'))
-//   setBorrowedBookbyUser(borrowedBookbyUser)
-//  console.log('TEST', borrowedBooklist, borrowedBookbyUser);
-
-}, [ ])
+},[userRole,userId ])
 
 
-//  console.log("borrowedBooklist", borrowedBooklist, borrowedBookbyUser)
+
 
   const handleSubmit = (username, password) => {
     //  console.log(username, password);
@@ -71,36 +66,9 @@ useEffect(() =>{
     setOpenBookDetails(false)
     setDetail(false)
   }
-
+ 
   
 
-//   useEffect(()=>{
-//     const getBorrowed=  () =>{
-//     console.log("hello");
-//     borrowedBooklist= (booklist.filter(b=>b.borrowedBy.length!==0));
-//       setBorrowedBooklist(borrowedBooklist);
-//        borrowedBookbyUser = borrowedBooklist.map(b => b.borrowedBy.includes('faizamoni'))
-//      setBorrowedBookbyUser(borrowedBookbyUser);
-//   };
-//     //getBorrowed();
-// },
-//  [ borrowedBooklist,   borrowedBookbyUser])
-  
-///test
-// function Foo(props) {
-//   useEffect(() => {
-//     console.log(props.name);
-//     borrowedBooklist= (booklist.filter(b=>b.borrowedBy.length!==0));
-//     setBorrowedBooklist(borrowedBooklist);
-//      borrowedBookbyUser = borrowedBooklist.map(b => b.borrowedBy.includes('faizamoni'))
-//      setBorrowedBookbyUser(borrowedBookbyUser);
-//   },
-
-
-
-//   [props]); // <-- should error and offer autofix to [props.name]
-
-// }
 
 
 
@@ -138,16 +106,24 @@ useEffect(() =>{
 
     };
     getBooks()
-     
-   
-
   }, [])
 
- 
+  //borrowedbooklist
+  useEffect(() => {
+  const getBorrowedBooks= async () => {
+   
+    const res = await axios.get(`/users/borrowbooklist/${user._id}`)
+    borrowedBooklist =  booklist.filter(b=>b.borrowedBy.length!==0); //all borrowed books
+    borrowedBookbyUser =  borrowedBooklist.filter(b => b.borrowedBy.includes(user._id))
+    setUserInfo(res.data);
+    setBorrowedBookbyUser(borrowedBookbyUser)
+   // console.log('result11111111111111111', res.data.borrowedBook,  borrowedBooklist, borrowedBookbyUser);
+  };
+  getBorrowedBooks()
   
- //console.log('test push', this.test);
-  //console.log("borrowedBooklist", borrowedBooklist, borrowedBookbyUser)
+  }, [borrowedBookbyUser])
 
+//console.log('hey', borrowedBookbyUser)
   //delete book
   const handleDelete = async (index, e) => {
 
@@ -174,6 +150,7 @@ useEffect(() =>{
         <i className="writeIcon fas fa-plus"></i>
 
       </div>}
+    
 
           {booklist.length>0 ? 
           (<table >
@@ -266,10 +243,19 @@ useEffect(() =>{
             <th> Action</th>
 
           </tr>
-
-          <tr>
-            <td> hh</td>
-          </tr>
+          {(borrowedBookbyUser.map((c, index) => (
+          <tr key={index}>
+            <td> {index + 1}</td>
+            <td>{c.bookname}</td>
+            <td>{c.author}</td>
+            <td>{c.edition}</td>
+            <td>{c.price}</td>
+            <td> {c.quantity}</td>
+            <td>{c.copyright}</td>
+            <td>{c.title}</td>
+            <td>{c.desc}</td>
+            <td > </td>
+              </tr>)))}
           </table>
           
       {(openAddbook === true) &&

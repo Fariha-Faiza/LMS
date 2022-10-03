@@ -59,4 +59,24 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+//borrowed booklist by userid 
+router.get("/borrowbooklist/:id", async (req, res) => {
+  console.log('post', Post)
+  try {                                                                                                                                                                                                                      
+    const user = await User.findById(req.params.id);
+
+    if(User.borrowedBook== null){
+      console.log("no book borrowed");
+    }
+    console.log(User.borrowedBook);
+    const { password, ...others } = user._doc;
+    res.status(200).json(others);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+
+
+
 module.exports = router;

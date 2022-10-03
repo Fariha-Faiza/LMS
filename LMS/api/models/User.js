@@ -24,6 +24,12 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: "",
     },
+
+    borrowedBook:{
+        type: Array,
+        required: false,
+
+    }
 },
 {timestamps: true}
 
