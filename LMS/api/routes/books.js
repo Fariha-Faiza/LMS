@@ -156,46 +156,43 @@ router.get("/", async (req, res) => {
 });
 
 
-//borrow book
-
-
-
-router.post("/borrow/:id", async (req, res, next) => {
-  //const newPost = new Post(req.body);
-  console.log("borrow");
-  try {
-    const book = await Post.findOne({ username: req.body.username })
-    // if (book == null) {
-    //   return res.status(404).json({ error: "Book not found" })
-    // }
-    // if (book.borrowedBy.length === book.quantity) {
-    //   return res.status(400).json({ error: "Book is not available" })
-    // }
-    // const user = await User.findById(req.body.username)
-    // if (user != null) {
-    //   return res.status(404).json({ error: "User not found" })
-    // }
-
-    console.log("borrow1",  req.body.username);
-    if (Post.borrowedBy?.includes(User._id)) {
-      return res.status(400).json({ error: "You've already borrowed this book" })
-    }
-    console.log("borrow2", Post.borrowedBy?.includes(User._id), Post.borrowedBy, User._id, book);
-    // await book.update({ borrowedBy: [...book.borrowedBy, User._id] })
-    // const updatedBook = await BookModel.findById(book.id)
-    console.log("borrow3");
-    // return res.status(200).json({
-    //   book: {
-    //     ...updatedBook.toJSON(),
-    //    // availableQuantity: updatedBook.quantity - updatedBook.borrowedBy.length,
-    //   },
+// all borrowed book by id 
+router.post("/borrow", async (req, res) => {
+      const id = req.body.id;
+    console.log('backend borrowed list',  id)
+    try {
       
-    // })
+      const post = await Post.findById(id);
+
+      // if(post.borrowedBy.includes(id))
+        console.log('post', post.borrowedBy)
+       res.status(200).json(post.borrowedBy);
     
-  } catch (err) {
-    console.log("problem");
-    next(err)
+    } 
+    catch (err) {
+      res.status(500).json(err);
+    }
+    
+})
+
+
+
+
+router.get("/borrow", async (req, res) => {
+ 
+  const borrowedby =req.body.id;
+   try{
+    let posts;
+   if(borrowedby){
+    posts = await Post.find({ borrowedby});
+   }else {
+    posts = await Post.find();
   }
+  res.status(200).json(posts);
+   }catch(err){
+    res.status(500).json(err);
+   }
+
 })
 
 
