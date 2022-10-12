@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const Post = require("../models/Book");
+const BorrowedBooks = require("../models/BorrowedBooks");
 
 //CREATE POST
 router.post("/", async (req, res) => {
@@ -157,45 +158,46 @@ router.get("/", async (req, res) => {
 
 
 // all borrowed book by id 
-router.post("/borrow", async (req, res) => {
-      const id = req.body.id;
-    console.log('backend borrowed list',  id)
-    try {
+// router.post("/borrow", async (req, res) => {
+//       const bookId = req.body.id;
+//     console.log('backend borrowed list',  bookId)
+//     try {
       
-      const post = await Post.findById(id);
+//       const post = await Post.findById(bookId);
 
-      // if(post.borrowedBy.includes(id))
-        console.log('post', post.borrowedBy)
-       res.status(200).json(post.borrowedBy);
+//       // if(post.borrowedBy.includes(id))
+//         console.log('post', post.borrowedBy)
+//        res.status(200).json(post.borrowedBy);
     
-    } 
-    catch (err) {
-      res.status(500).json(err);
-    }
+//     } 
+//     catch (err) {
+//       res.status(500).json(err);
+//     }
     
-})
+// })
 
-
+router.post("/borrow", async (req, res) => {
+  const borrowedBooks = new BorrowedBooks(req.body);
+  try {
+    const BorrowedBookList = await borrowedBooks.save();
+    res.status(200).json(BorrowedBookList);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 
 router.get("/borrow", async (req, res) => {
- 
-  const borrowedby =req.body.id;
-   try{
-    let posts;
-   if(borrowedby){
-    posts = await Post.find({ borrowedby});
-   }else {
-    posts = await Post.find();
-  }
-  res.status(200).json(posts);
-   }catch(err){
+  const user = req.body.user;
+  try {
+    const BorrowedBookList = await BorrowedBooks.findById(user);
+    res.status(200).json( BorrowedBookList);
+    console.log("all okay");
+  } catch (err) {
     res.status(500).json(err);
-   }
-
+    console.log("error");
+  }
 })
-
-
 
 
 module.exports = router;
