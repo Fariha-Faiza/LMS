@@ -88,7 +88,7 @@ router.delete("/:id", async (req, res) => {
     
       try {
         await post.delete();
-        res.status(200).json("Post has been deleted...");
+        res.status(200).json("Book has been deleted...");
       } catch (err) {
         res.status(500).json(err);
       }

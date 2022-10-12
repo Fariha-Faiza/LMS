@@ -5,22 +5,22 @@ const BookSchema = new mongoose.Schema({
   title:{
       type: String,
       required: true,
-      unique: true,
+      
     },
     copyright:{
       type: String,
       required: true,
-      unique: false,
+      // unique: false,
     },
     price:{
       type: Number,
       required: true,
-      unique: false,
+      // unique: false,
     },
     quantity:{
       type: Number,
       required: true,
-      unique: false,
+      // unique: false,
     },
     borrowedBy: { 
        type: Array,
@@ -46,10 +46,10 @@ const BookSchema = new mongoose.Schema({
       type: String,
       required: false,
     },
-    username: {
-      type: String,
-      required: true,
-    },
+    // username: {
+    //   type: String,
+    //   required: true,
+    // },
   
     categories: {
       type: Array,

@@ -73,14 +73,14 @@ export default function BBL(params) {
                 <tbody>
 
                     {
-                        params.bookList.map((b, i) => (
+                        params.bookList.map((b,i) => (
                             (b.borrowedBy.includes(params.user_id))
                             &&
                                 <tr key={i}>
-                                    <td>{i}</td>
-                                    <td>{b.bookname} </td>
+                                    <td>{i+1}</td>
                                     <td>{b.title}</td>
-                                    <td>{b.author}</td>
+                                    <td>{b.bookname} </td>
+                                     <td>{b.author}</td>
                                     {/* <td>
                                         <button type=''  onClick={(e) => returnBookHandler(b)}> Return </button>
                                     </td> */}

@@ -104,7 +104,7 @@ export const Addbook = ({ open, handleClose, handleSubmit, bookData, action }) =
               setUsername(user.username);
               setBorrowedBy([...borrowedBy, user._id]);
               setQuantity(quantity-1)
-              window.location.replace("/");
+             window.location.replace("/");
           }
           catch (err) { }
         }
