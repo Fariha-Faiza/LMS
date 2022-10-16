@@ -1,75 +1,53 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose")
 
 
-const BorrowedBooksSchema = new mongoose.Schema({
-  
-    //user details
-  
-    // user: {
 
-    //     type: mongoose.Schema.Types.ObjectId,
-  
-    //     required: true,
-  
-    //     ref: "User",
-  
-    //   },
-    
+const BorrowedBooksSchema = new mongoose.Schema(
 
-      //book details
-    title:{
-        type: String,
-        required: true,
-        unique: false,
+  {
+
+    user: {
+
+      type: mongoose.Schema.Types.ObjectId,
+
+
+
+      required: true,
+
+
+
+      ref: "User",
+
+    },
+
+    borrowedItems: [
+
+      {
+
+        name: { type: String, required: true, unique: false },
+
+        author: { type: String, required: true },
+
+        edition: { type: Number, required: true },
+
+        borrowedBook: {
+
+          type: mongoose.Schema.Types.ObjectId,
+
+          required: true,
+
+          ref: "Book",
+
+        },
+
       },
-      copyright:{
-        type: String,
-        required: true,
-        unique: false,
-      },
-      price:{
-        type: Number,
-        required: true,
-        unique: false,
-      },
-      quantity:{
-        type: Number,
-        required: true,
-        unique: false,
-      },
-     
-      bookname:{
-        type: String,
-        required: true,
-      },
-      author: {
-        type: String,
-        required: true,
-      },
-      edition:{
-        type: String,
-        required: true,
-      },
-      desc: {
-        type: String,
-        required: true,
-      },
-      photo: {
-        type: String,
-        required: false,
-      },
-      
-    
-      categories: {
-        type: Array,
-        required: false,
-      },
-  
-    
-  
-  
+
+    ],
+
   },
-  {timestamps: true}
-  
-  );
-  module.exports = mongoose.model("BorrowedBooks", BorrowedBooksSchema);
+
+  { timestamps: true }
+
+)
+
+module.exports = mongoose.model("BorrowedBooks", BorrowedBooksSchema)

@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/users");
 const bookRoute = require("./routes/books");
+const borrowRoute = require("./routes/borrowedbooks");
 
 dotenv.config();
 app.use(express.json());
@@ -26,6 +27,7 @@ mongoose
  app.use("/api/auth", authRoute)
  app.use("/api/users", userRoute)
  app.use("/api/books", bookRoute)
+ app.use("/api/borrow", borrowRoute)
 
 
  console.log("lama");
